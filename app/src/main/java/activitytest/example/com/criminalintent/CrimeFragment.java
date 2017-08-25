@@ -40,25 +40,6 @@ public class CrimeFragment extends Fragment {
 
         mTitle = (TextView) view.findViewById(R.id.crime_title);
 
-
-        // 文本监听事件
-//        mTitle.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                mCrime.setTitle(s.toString());
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
-
         mTitle.setText(mCrime.getTitle());
 
         // 先设置时间按纽为禁用状态 并设定实例对象创建时的日期
