@@ -39,7 +39,7 @@ public class CrimeLab {
         return null;
     }
 
-    private static CrimeLab getCrimeLab(Context context){
+    public static CrimeLab getCrimeLab(Context context){
         if (sCrimeLab ==null){
             sCrimeLab = new CrimeLab(context);
         }
