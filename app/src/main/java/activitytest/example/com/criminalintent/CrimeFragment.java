@@ -3,6 +3,7 @@ package activitytest.example.com.criminalintent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,16 @@ public class CrimeFragment extends Fragment {
         // 先设置时间按纽为禁用状态 并设定实例对象创建时的日期
         mDateButton = (Button) view.findViewById(R.id.crime_date);
         mDateButton.setText(mCrime.getDate().toString());
-        mDateButton.setEnabled(false);
+//        mDateButton.setEnabled(false);
+
+        mDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getFragmentManager();
+                DialogFragment fragment = new DialogFragment();
+                fragment.show(fm,"DialogDate");
+            }
+        });
 
         // CheckBox 的监听事件
         mSolvedCheckBox = (CheckBox) view.findViewById(R.id.crime_solved);
