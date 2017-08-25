@@ -1,5 +1,6 @@
 package activitytest.example.com.criminalintent;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -21,6 +21,14 @@ import java.util.List;
 public class CrimeListFragment extends Fragment {
 
     private RecyclerView mCrimeRecyclerView;
+    private CrimeAdapter mCrimeAdapter;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,19 +39,29 @@ public class CrimeListFragment extends Fragment {
 
         // 数据
 
-        CrimeLab crimeLab = CrimeLab.getCrimeLab(getActivity());
+        updateUI();
 
-        List<Crime> crimeList = crimeLab.getCrimes();
 
-        CrimeAdapter crimeAdapter = new CrimeAdapter(crimeList);
-
-        mCrimeRecyclerView.setAdapter(crimeAdapter);
 
         return view;
     }
 
+    private void updateUI() {
+        CrimeLab crimeLab = CrimeLab.getCrimeLab(getActivity());
 
-    private class CrimeHolder extends RecyclerView.ViewHolder {
+        List<Crime> crimeList = crimeLab.getCrimes();
+
+        if (mCrimeAdapter == null){
+            mCrimeAdapter = new CrimeAdapter(crimeList);
+
+            mCrimeRecyclerView.setAdapter(mCrimeAdapter);
+        } else {
+            mCrimeAdapter.notifyDataSetChanged();
+        }
+    }
+
+
+    private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView mTitleTextView;
         private TextView mDateTextView;
@@ -51,23 +69,21 @@ public class CrimeListFragment extends Fragment {
         private Crime mCrime;
 
 
-
-        public CrimeHolder(View itemView) {
+        // CrimeHolder 用来保存视图
+        public CrimeHolder(View itemView)  {
             super(itemView);
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_crime_title_text_view);
             mDateTextView = (TextView) itemView.findViewById(R.id.list_item_crime_date_text_view);
             mCheckBox = (CheckBox) itemView.findViewById(R.id.list_item_crime_solved_check_box);
 
-            mTitleTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getActivity(), mCrime.getTitle(), Toast.LENGTH_SHORT).show();
-                }
-            });
+            itemView.setOnClickListener(this);
+
         }
 
+        // 绑定数据到组件
         public void bindCrime(Crime crime){
+
             mCrime = crime;
 
             mTitleTextView.setText(crime.getTitle());
@@ -76,9 +92,15 @@ public class CrimeListFragment extends Fragment {
 
 
         }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            startActivity(intent);
+        }
     }
 
-
+    // 适配器
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder>{
 
         private List<Crime> mCrimes;

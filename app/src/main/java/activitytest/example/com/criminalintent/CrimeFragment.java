@@ -3,8 +3,6 @@ package activitytest.example.com.criminalintent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +10,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+
+import java.util.UUID;
 
 /**
  * Created by pan on 2017/8/24.
@@ -26,7 +26,11 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCrime = new Crime();
+//        mCrime = new Crime();
+
+        UUID uuid = (UUID) getArguments().getSerializable("crime_id");
+        mCrime = CrimeLab.getCrimeLab(getActivity()).getCrime(uuid);
+
     }
 
     @Nullable
@@ -38,22 +42,24 @@ public class CrimeFragment extends Fragment {
 
 
         // 文本监听事件
-        mTitle.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//        mTitle.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                mCrime.setTitle(s.toString());
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mCrime.setTitle(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        mTitle.setText(mCrime.getTitle());
 
         // 先设置时间按纽为禁用状态 并设定实例对象创建时的日期
         mDateButton = (Button) view.findViewById(R.id.crime_date);
@@ -71,5 +77,15 @@ public class CrimeFragment extends Fragment {
 
         return view;
 
+    }
+
+    public static CrimeFragment newInstance(UUID crimeId){
+        Bundle args = new Bundle();
+        args.putSerializable("crime_id",crimeId);
+
+        CrimeFragment fragment = new CrimeFragment();
+        fragment.setArguments(args);
+
+        return fragment;
     }
 }
