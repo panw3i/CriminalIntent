@@ -9,6 +9,9 @@ import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -41,6 +44,7 @@ public class CrimeFragment extends Fragment {
         UUID uuid = (UUID) getArguments().getSerializable("crime_id");
         mCrime = CrimeLab.getCrimeLab(getActivity()).getCrime(uuid);
 
+        setHasOptionsMenu(true);
         //mCrimes = CrimeLab.getCrimeLab(getActivity()).getCrimes();
 
     }
@@ -146,5 +150,33 @@ public class CrimeFragment extends Fragment {
             mCrime.setDate(date);
             mDateButton.setText(mCrime.getDate().toString());
         }
+    }
+
+    // 创建右上角菜单
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_crime_delete,menu);
+    }
+
+    // 配置右上角菜单选项并显示
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_delete_crime:
+                deleteCrime();
+                getActivity().finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void deleteCrime() {
+        CrimeLab.getCrimeLab(getActivity()).getCrimes().remove(mCrime);
+
     }
 }
