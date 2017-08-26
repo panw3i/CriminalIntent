@@ -46,16 +46,23 @@ public class CrimeFragment extends Fragment {
         // 先设置时间按纽为禁用状态 并设定实例对象创建时的日期
         mDateButton = (Button) view.findViewById(R.id.crime_date);
         mDateButton.setText(mCrime.getDate().toString());
-//        mDateButton.setEnabled(false);
+        //mDateButton.setEnabled(false);
 
+
+        // 弹出日期选择窗口的 fragment
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getFragmentManager();
-                DialogFragment fragment = new DialogFragment();
+
+                //DialogFragment fragment = new DialogFragment();
+                // 通过目录 fragment 的静态方法将数据保存到 bundle 对象中
+                DialogFragment fragment = DialogFragment.newInstance(mCrime.getDate());
+
                 fragment.show(fm,"DialogDate");
             }
         });
+
 
         // CheckBox 的监听事件
         mSolvedCheckBox = (CheckBox) view.findViewById(R.id.crime_solved);
