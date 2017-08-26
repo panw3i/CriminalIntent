@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -49,11 +50,25 @@ public class CrimeListFragment extends Fragment {
                 startActivity(intent);
                 return true;
 
+            case R.id.menu_item_show_subtitle:
+                updateSubTitle();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
+
+
         }
 
 
+    }
+
+    private void updateSubTitle() {
+        CrimeLab crimeLab = CrimeLab.getCrimeLab(getActivity());
+        int crimeCount = crimeLab.getCrimes().size();
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.getSupportActionBar().setSubtitle("共有"+crimeCount+"个事务存在");
     }
 
     // 覆写方法创建选择菜单
