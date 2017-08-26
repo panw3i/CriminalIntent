@@ -1,6 +1,9 @@
 package activitytest.example.com.criminalintent;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -10,6 +13,7 @@ import android.widget.DatePicker;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by pan on 2017/8/25.
@@ -47,7 +51,18 @@ public class DialogFragment extends AppCompatDialogFragment {
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setTitle("设置日期")
-                .setPositiveButton("退出",null)
+                //.setPositiveButton("确定",null)
+             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                 @Override
+                 public void onClick(DialogInterface dialog, int which) {
+                     int year = mDatePicker.getYear();
+                     int month = mDatePicker.getMonth();
+                     int day = mDatePicker.getDayOfMonth();
+
+                     Date date = new GregorianCalendar(year,month,day).getTime();
+                     sendResult(Activity.RESULT_OK,date);
+                 }
+             })
                 .create();
     }
 
@@ -61,6 +76,18 @@ public class DialogFragment extends AppCompatDialogFragment {
         fragment.setArguments(bundle);
 
         return fragment;
+    }
+
+    private void sendResult(int resultCode ,Date date){
+        if (getTargetFragment() == null){
+            return;
+        }
+
+        Intent intent = new Intent();
+        intent.putExtra("data",date);
+
+        getTargetFragment().onActivityResult(getTargetRequestCode(),resultCode,intent);
+
     }
 
 

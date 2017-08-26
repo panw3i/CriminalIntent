@@ -1,9 +1,13 @@
 package activitytest.example.com.criminalintent;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -59,7 +64,28 @@ public class CrimeFragment extends Fragment {
                 // 通过目录 fragment 的静态方法将数据保存到 bundle 对象中
                 DialogFragment fragment = DialogFragment.newInstance(mCrime.getDate());
 
+                // 设置目标 fragment 交给 FragmentManger 进行管理 , 0 为请示码
+                fragment.setTargetFragment(CrimeFragment.this,0);
+
                 fragment.show(fm,"DialogDate");
+            }
+        });
+
+        // TextView 的监听事件
+        mTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mCrime.setTitle(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -85,5 +111,18 @@ public class CrimeFragment extends Fragment {
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK){
+            return;
+        }
+
+        if (requestCode == 0){
+            Date date = (Date) data.getSerializableExtra("data");
+            mCrime.setDate(date);
+            mDateButton.setText(mCrime.getDate().toString());
+        }
     }
 }

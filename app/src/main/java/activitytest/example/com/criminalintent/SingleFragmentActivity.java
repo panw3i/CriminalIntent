@@ -2,15 +2,15 @@ package activitytest.example.com.criminalintent;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by pan on 2017/8/24.
  */
 
-
-public abstract class SingleFragmentActivity extends FragmentActivity {
+// FragmentActivity 是 AppCompatActivity 的子类
+public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     protected  abstract Fragment createFragment();
 

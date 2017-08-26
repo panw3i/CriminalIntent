@@ -27,17 +27,18 @@ public class CrimePagerActivity extends FragmentActivity {
 
         setContentView(R.layout.activity_crime_pager);
 
-
+        // 在启动时获得实体类的 UUID
         UUID crimeId = (UUID) getIntent().getSerializableExtra("id");
+
 
         mViewPager = (ViewPager) findViewById(R.id.activity_crime_pager_view_pager);
 
+        // 数据
         mCrimes = CrimeLab.getCrimeLab(this).getCrimes();
-
-
 
         FragmentManager fm = getSupportFragmentManager();
 
+        // 为 ViewPager 设置适配器
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
             @Override
             public Fragment getItem(int position) {
@@ -61,6 +62,7 @@ public class CrimePagerActivity extends FragmentActivity {
 
     }
 
+    // 在本类中封装一个创建 Intent对象的静态方法,用来接受其它类传入 UUID
     public static Intent newIntent(Context context, UUID crimeId){
         Intent intent = new Intent(context, CrimePagerActivity.class);
         intent.putExtra("id",crimeId);
