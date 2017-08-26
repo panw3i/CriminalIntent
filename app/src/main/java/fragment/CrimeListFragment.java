@@ -1,4 +1,4 @@
-package activitytest.example.com.criminalintent;
+package fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,11 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.List;
+
+import activitytest.example.com.criminalintent.CrimePagerActivity;
+import activitytest.example.com.criminalintent.R;
+import model.Crime;
+import model.CrimeLab;
 
 /**
  * Created by pan on 2017/8/25.

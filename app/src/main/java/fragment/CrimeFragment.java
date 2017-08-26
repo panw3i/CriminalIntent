@@ -1,4 +1,4 @@
-package activitytest.example.com.criminalintent;
+package fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,6 +22,10 @@ import android.widget.TextView;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import activitytest.example.com.criminalintent.R;
+import model.Crime;
+import model.CrimeLab;
 
 /**
  * Created by pan on 2017/8/24.

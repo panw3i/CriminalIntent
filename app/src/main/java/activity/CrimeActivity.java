@@ -1,10 +1,12 @@
-package activitytest.example.com.criminalintent;
+package activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import java.util.UUID;
+
+import fragment.CrimeFragment;
 
 public class CrimeActivity extends SingleFragmentActivity {
 

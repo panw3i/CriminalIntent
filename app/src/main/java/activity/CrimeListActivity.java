@@ -1,6 +1,8 @@
-package activitytest.example.com.criminalintent;
+package activity;
 
 import android.support.v4.app.Fragment;
+
+import fragment.CrimeListFragment;
 
 /**
  * Created by pan on 2017/8/25.

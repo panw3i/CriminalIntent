@@ -1,4 +1,4 @@
-package activitytest.example.com.criminalintent;
+package model;
 
 import android.content.Context;
 

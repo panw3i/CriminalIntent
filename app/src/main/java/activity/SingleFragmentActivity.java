@@ -1,9 +1,11 @@
-package activitytest.example.com.criminalintent;
+package activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+
+import activitytest.example.com.criminalintent.R;
 
 /**
  * Created by pan on 2017/8/24.

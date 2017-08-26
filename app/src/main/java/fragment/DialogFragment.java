@@ -1,4 +1,4 @@
-package activitytest.example.com.criminalintent;
+package fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -14,6 +14,8 @@ import android.widget.DatePicker;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import activitytest.example.com.criminalintent.R;
 
 /**
  * Created by pan on 2017/8/25.

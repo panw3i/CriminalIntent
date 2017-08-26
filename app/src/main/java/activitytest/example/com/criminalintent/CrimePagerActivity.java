@@ -12,6 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.List;
 import java.util.UUID;
 
+import fragment.CrimeFragment;
+import model.Crime;
+import model.CrimeLab;
+
 /**
  * Created by pan on 2017/8/25.
  */
