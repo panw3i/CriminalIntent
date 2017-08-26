@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -29,6 +30,9 @@ public class CrimeFragment extends Fragment {
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
 
+    private CrimeLab mCrimeLab;
+    private List<Crime> mCrimes;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +40,8 @@ public class CrimeFragment extends Fragment {
 
         UUID uuid = (UUID) getArguments().getSerializable("crime_id");
         mCrime = CrimeLab.getCrimeLab(getActivity()).getCrime(uuid);
+
+        //mCrimes = CrimeLab.getCrimeLab(getActivity()).getCrimes();
 
     }
 
@@ -80,11 +86,16 @@ public class CrimeFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mCrime.setTitle(s.toString());
+
+                if (s != ""){
+                    mCrime.setTitle(s.toString());
+                }
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+
 
             }
         });
@@ -103,15 +114,26 @@ public class CrimeFragment extends Fragment {
 
     }
 
+
+
+    // 不同 Activity 之间的 Fragment 进行数据的传递使用 Bundle 对象
     public static CrimeFragment newInstance(UUID crimeId){
+
+        // 创建 Bundle 对象
         Bundle args = new Bundle();
+
+        // Bundle 对象的 putXxx()方法进行(键,值)的存储
         args.putSerializable("crime_id",crimeId);
 
+        // 将值当前的 Fragment 中 , 作为对象传递给其它类 , 用来接受 UUID 这个数据
         CrimeFragment fragment = new CrimeFragment();
         fragment.setArguments(args);
 
+        // 最后返回一个新的包含了相关数据的 Fragment 对象
         return fragment;
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

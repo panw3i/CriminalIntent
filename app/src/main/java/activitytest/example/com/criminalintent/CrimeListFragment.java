@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,22 +27,28 @@ public class CrimeListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mCrimeAdapter;
 
+    private static final String TAG = "ppp";
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 设置是否显示在 Fragment 上
         setHasOptionsMenu(true);
     }
 
+    // 菜单选项的回调 , 返回值为 boolean 表示是否显示在界面上
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
             case R.id.menu_item_new_crime:
+
                 Crime crime = new Crime();
                 CrimeLab.getCrimeLab(getActivity()).getCrimes().add(crime);
                 Intent intent = CrimePagerActivity.newIntent(getActivity(),crime.getId());
+
                 startActivity(intent);
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -49,6 +56,7 @@ public class CrimeListFragment extends Fragment {
 
     }
 
+    // 覆写方法创建选择菜单
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -72,24 +80,41 @@ public class CrimeListFragment extends Fragment {
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // 更新数据
-        updateUI();
+        // updateUI();
 
 
         return view;
     }
 
+
+    // 修改数据后进行 UI 的更新
     private void updateUI() {
+
+        // 获得管理对象
         CrimeLab crimeLab = CrimeLab.getCrimeLab(getActivity());
 
+        // 数据源
         List<Crime> crimeList = crimeLab.getCrimes();
 
-        if (mCrimeAdapter == null){
-            mCrimeAdapter = new CrimeAdapter(crimeList);
-
-            mCrimeRecyclerView.setAdapter(mCrimeAdapter);
-        } else {
-            mCrimeAdapter.notifyDataSetChanged();
+        // 删除标题为空的 crime
+        for(Crime crime: crimeList){
+            Log.i(TAG, "updateUI: " + crime);
+            if (crime.getTitle() == null){
+                crimeList.remove(crime);
+            }
         }
+
+
+        if (crimeList.size()!=0){
+            if (mCrimeAdapter == null){
+                mCrimeAdapter = new CrimeAdapter(crimeList);
+
+                mCrimeRecyclerView.setAdapter(mCrimeAdapter);
+            } else {
+                mCrimeAdapter.notifyDataSetChanged();
+            }
+        }
+
     }
 
     // 视图组件内部类
