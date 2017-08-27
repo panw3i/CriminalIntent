@@ -30,9 +30,13 @@ public class Crime {
     }
 
     public Crime(){
-        mId = UUID.randomUUID();
-        mDate = new Date();
+       this(UUID.randomUUID());   // 无参的构造方法自动调用有参数的构造方法 , UUID 是自动生成的
 
+    }
+
+    public Crime(UUID id){
+        mId = id;
+        mDate = new Date();   // 时间对象为 Crime 实例创建时自动创建
     }
 
     public UUID getId() {

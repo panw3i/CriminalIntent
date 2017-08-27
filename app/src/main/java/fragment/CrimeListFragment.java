@@ -87,6 +87,7 @@ public class CrimeListFragment extends Fragment {
     // 显示界面时更新视图
     @Override
     public void onResume() {
+        Log.d(TAG, "onResume: 重新复活了");
         super.onResume();
         updateUI();
     }
@@ -131,6 +132,7 @@ public class CrimeListFragment extends Fragment {
 
                 mCrimeRecyclerView.setAdapter(mCrimeAdapter);
             } else {
+                mCrimeAdapter.setCrimes(crimeList);
                 mCrimeAdapter.notifyDataSetChanged();
             }
         }
@@ -203,6 +205,10 @@ public class CrimeListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mCrimes.size();
+        }
+
+        public void setCrimes(List<Crime> crimes){
+            mCrimes =crimes;
         }
     }
 }
